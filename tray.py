@@ -55,10 +55,14 @@ def poll(icon, key):
         try:
             today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             # API rejects a range starting inside the current UTC day, so start a day early
-            buckets = [b for b in fetch(key, 1) if b["starting_at"][:10] == today]
-            spend = sum(float(r["amount"]) for b in buckets for r in b["results"]) / 100
+            buckets = sorted(fetch(key, 1), key=lambda b: b["starting_at"])
+            # Today's UTC bucket may not exist yet (e.g. just after 00:00 UTC): fall back to the latest day
+            b = next((b for b in reversed(buckets) if b["starting_at"][:10] == today), buckets[-1])
+            day = b["starting_at"][:10]
+            spend = sum(float(r["amount"]) for r in b["results"]) / 100
             icon.icon = make_icon(spend)
-            icon.title = f"Anthropic today: ${spend:.2f} / ${BUDGET:.2f}"
+            label = "today" if day == today else f"{day} (no data yet today)"
+            icon.title = f"Anthropic {label}: ${spend:.2f} / ${BUDGET:.2f}"
         except Exception as e:
             icon.title = f"Anthropic cost: error - {e}"[:127]
         refresh.wait(POLL_SECONDS)
