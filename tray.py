@@ -59,7 +59,7 @@ def poll(icon, key):
             # Today's UTC bucket may not exist yet (e.g. just after 00:00 UTC): fall back to the latest day
             b = next((b for b in reversed(buckets) if b["starting_at"][:10] == today), buckets[-1])
             day = b["starting_at"][:10]
-            spend = sum(float(r["amount"]) for r in b["results"]) / 100
+            spend = sum(float(r["amount"]) for r in b["results"])  # amounts are USD
             icon.icon = make_icon(spend)
             label = "today" if day == today else f"{day} (no data yet today)"
             icon.title = f"Anthropic {label}: ${spend:.2f} / ${BUDGET:.2f}"

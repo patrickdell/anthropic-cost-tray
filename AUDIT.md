@@ -16,7 +16,7 @@ against a real org. Not an independent security assessment.
 | Severity | Finding | Notes |
 |---|---|---|
 | **Medium** | Admin keys cannot be scoped to read-only | Inherent to Anthropic's Admin API; a leaked key can manage the org. Documented in README. |
-| Medium | Cost unit (cents) is taken from docs, not independently verified | Confirm against the Console before trusting the number. |
+| Medium | Cost unit: docs say cents, but observed values matched the Console in dollars, so no conversion is applied | Checked on one org only; confirm against your Console. |
 | Low | Credential Manager entries are readable by any process running as the same Windows user | Inherent to per-user credential stores. |
 | Low | Unsigned exe triggers SmartScreen; no update mechanism or hash published | Build from source if in doubt. |
 | Low | Spend is by UTC day, not local day | API limitation (1d buckets only). |

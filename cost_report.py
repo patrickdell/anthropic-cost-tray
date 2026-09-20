@@ -47,7 +47,7 @@ def main():
     for b in fetch(key, days):
         total = 0.0
         for r in b["results"]:
-            usd = float(r["amount"]) / 100  # amounts are in cents
+            usd = float(r["amount"])  # verified against the Console: amounts are USD
             total += usd
             per_model[r.get("model") or "(other)"] += usd
         per_day[b["starting_at"][:10]] = total

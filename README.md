@@ -28,7 +28,8 @@ Build a single exe: `pip install pyinstaller` then
   `ANTHROPIC_ADMIN_KEY` if set. It is encrypted for your Windows user, but any program running as you can
   still read it. To forget it: Credential Manager → Windows Credentials → remove `anthropic-cost-tray`.
 - **"Today" is a UTC day**, because the API only returns whole UTC-day buckets.
-- **Amounts are assumed to be cents** (per the API docs) and divided by 100. Verify against the Console.
+- **Amounts are treated as USD.** The API docs describe them as cents, but a real org's figures matched the
+  Console in dollars, so no conversion is applied. Compare against your own Console before trusting it.
 - The exe is unsigned, so SmartScreen will warn. Build it yourself if you don't trust a binary.
 
 See [AUDIT.md](AUDIT.md) for the security/quality review.
